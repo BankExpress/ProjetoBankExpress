@@ -1,17 +1,23 @@
 package com.saborexpress.saborexpress.service;
 
 import com.saborexpress.saborexpress.model.Cliente;
+import com.saborexpress.saborexpress.repository.ClienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class ClienteServiceImpl implements ClienteService {
     private List<Cliente> clienteList = new ArrayList<>();
 
+    @Autowired
+    ClienteRepository clienteRepository;
+
     @Override
     public List<Cliente> findAll() {
-        return clienteList;
+        return clienteRepository.findAll();
     }
 
     @Override
