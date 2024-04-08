@@ -1,4 +1,6 @@
 package com.saborexpress.saborexpress.service.serviceImpl;
 
-public interface ProdutoServiceImpl {
+import com.saborexpress.saborexpress.service.ProdutoService;
+
+public class ProdutoServiceImpl implements ProdutoService {
 }

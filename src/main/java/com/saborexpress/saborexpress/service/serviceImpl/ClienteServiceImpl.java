@@ -1,5 +1,8 @@
 package com.saborexpress.saborexpress.service.serviceImpl;
 
+import com.saborexpress.saborexpress.domain.TipoDeCliente;
+import com.saborexpress.saborexpress.exception.ClienteJaExisteException;
+import com.saborexpress.saborexpress.mapper.ClienteMapper;
 import com.saborexpress.saborexpress.model.Cliente;
 import com.saborexpress.saborexpress.repository.ClienteRepository;
 import com.saborexpress.saborexpress.service.ClienteService;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ClienteServiceImpl implements ClienteService {
@@ -16,38 +20,53 @@ public class ClienteServiceImpl implements ClienteService {
     private final ClienteRepository clienteRepository;
 
 
+
     @Override
     public List<Cliente> findAll() {
+
         return clienteRepository.findAll();
     }
 
     @Override
-    public List<Cliente>clienteList findByNome(final String nome) {
+    public Optional<Cliente> findByNome(final String nome) {
+
         return clienteRepository.findByNome(nome);
     }
 
     @Override
-    public Cliente save(final Cliente cliente) {
-        return clienteRepository.save(cliente);
+    public Optional<Cliente> findById(Long id) {
+
+        return clienteRepository.findById(id);
     }
 
     @Override
-    public Optional<Cliente> update(final String nome, final Cliente clienteAtualizado) {
-        final Optional<Cliente> clienteOptional = findById(nome);
+    public Cliente save(final Cliente entity) {
 
-        if (clienteOptional.isPresent()) {
-            final Cliente clienteAtualizado = clienteOptional.get();
-            clienteAtualizado.setNome(clienteAtualizado.getNome());
-            clienteAtualizado.setDocumento(clienteAtualizado.getDocumento());
-            clienteAtualizado.setEmail(clienteAtualizado.getEmail());
-            clienteRepository.save(clienteAtualizado);
+        if (clienteRepository.findById(entity.getId()).isPresent()) {
+            throw new ClienteJaExisteException("O cliente com id " + entity.getId() + " já existe!")
         }
-
-        return clienteOptional;
+        return clienteRepository.save(entity);
     }
 
-    public void delete(final String nome  ) {
-        final Optional<Cliente> clienteOptional = findById(nome);
-        clienteOptional.ifPresent(clienteRepository::delete);
+    @Override
+    public Optional<Cliente> update(final String nome, final String email, final TipoDeCliente tipoDeCliente, final Cliente clienteAtualizado) {
+        final Optional<Cliente> clienteOptional = clienteRepository.findById(id);
+        if (clienteOptional.isPresent()) {
+            final Cliente entity = clienteOptional.get();
+            ClienteMapper.copy(clienteAtualizado, entity);
+            clienteRepository.save(entity);
+            return Optional.of(clienteAtualizado);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void delete(Long id) {
+        Optional<Cliente> entity = clienteRepository.findById(id);
+
+        if (entity.isPresent()) {
+            clienteRepository.delete(entity.get());
+        }
+        throw new ClienteJaExisteException("O cliente com id " + id + " não existe!");
     }
 }

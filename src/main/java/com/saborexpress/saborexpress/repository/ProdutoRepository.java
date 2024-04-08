@@ -1,4 +1,4 @@
 package com.saborexpress.saborexpress.repository;
 
-public class ProdutoRepository {
+public interface ProdutoRepository {
 }

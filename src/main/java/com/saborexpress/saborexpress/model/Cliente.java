@@ -1,7 +1,7 @@
 package com.saborexpress.saborexpress.model;
 
 
-import com.saborexpress.saborexpress.domain.ClienteEnum;
+import com.saborexpress.saborexpress.domain.TipoDeCliente;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,8 +13,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+
 public class Cliente {
 
     @Id
@@ -25,11 +24,13 @@ public class Cliente {
     private String nome;
 
     @Column(length = 100)
+    @NotNull(message = "O Atributo Email é Obrigatório!")
     private String email;
 
+    @NotNull(message = "O Atributo Tipo de Cliente é Obrigatório!")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private ClienteEnum documento;
+    private TipoDeCliente tipoDeCliente;
 
 
 
