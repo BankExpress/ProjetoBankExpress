@@ -25,7 +25,6 @@ public class ClienteDto {
     @Size(min = 5)
     private String email;
 
-
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private TipoDeCliente tipoDeCliente;

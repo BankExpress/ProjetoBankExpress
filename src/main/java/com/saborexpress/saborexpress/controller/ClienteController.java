@@ -13,8 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-import static com.saborexpress.saborexpress.mapper.ClienteMapper.toDto;
-import static com.saborexpress.saborexpress.mapper.ClienteMapper.toEntity;
+import static com.saborexpress.saborexpress.mapper.ClienteMapper.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,24 +25,24 @@ public class ClienteController {
 
     @GetMapping
     public ResponseEntity<List<ClienteDto>> findAll() {
-        return ResponseEntity.ok(toDto(clienteService.findAll()));
+        return ResponseEntity.ok(toDtoCliente(clienteService.findAll()));
     }
 
     @GetMapping(params = {"nome"})
     public ResponseEntity<List<ClienteDto>> findByNome(@RequestParam("nome") final String nome) {
         log.info(nome);
-        return ResponseEntity.ok(toDto(clienteService.findByNome(nome)));
+        return ResponseEntity.ok(toDtoCliente(clienteService.findByNome(nome)));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ClienteDto> findById(@PathVariable("id") final Long id) {
         final Cliente cliente = clienteService.findById(id).orElse(null);
-        return ResponseEntity.ok(toDto(cliente));
+        return ResponseEntity.ok(toDtoCliente(cliente));
     }
 
     @PostMapping
     public ResponseEntity<Void> save(@Valid @RequestBody final ClienteDto clienteDto) {
-        clienteService.save(toEntity(clienteDto));
+        clienteService.save(toEntityCliente(clienteDto));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -51,7 +50,7 @@ public class ClienteController {
     public ResponseEntity<ClienteDto> update(@PathVariable("id") final Long id,
                                          @Valid @RequestBody final ClienteDto clienteAtualizado) {
 
-        final Optional<Cliente> optionalCliente = clienteService.update(id, toEntity(clienteAtualizado));
+        final Optional<Cliente> optionalCliente = clienteService.update(id, toEntityCliente(clienteAtualizado));
         if (optionalCliente.isEmpty()) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(clienteAtualizado);
     }
