@@ -4,6 +4,7 @@ import com.saborexpress.saborexpress.dto.ClienteDto;
 import com.saborexpress.saborexpress.model.Cliente;
 import com.saborexpress.saborexpress.service.ClienteService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,8 @@ import java.util.Optional;
 
 import static com.saborexpress.saborexpress.mapper.ClienteMapper.toDto;
 import static com.saborexpress.saborexpress.mapper.ClienteMapper.toEntity;
-import static java.awt.Container.log;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/cliente")
@@ -24,26 +25,20 @@ public class ClienteController {
     private final ClienteService clienteService;
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<ClienteDto> findAll() {
-
-        return toDto(clienteService.findAll());
+    public ResponseEntity<List<ClienteDto>> findAll() {
+        return ResponseEntity.ok(toDto(clienteService.findAll()));
     }
 
     @GetMapping(params = {"nome"})
-    public ResponseEntity<ClienteDto> findByNome(@RequestParam("nome") final String nome) {
+    public ResponseEntity<List<ClienteDto>> findByNome(@RequestParam("nome") final String nome) {
         log.info(nome);
         return ResponseEntity.ok(toDto(clienteService.findByNome(nome)));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ClienteDto> findById(@PathVariable("id") final Long id) {
-        Optional<Cliente> cliente=clienteService.findById(id);
-        if(cliente.isPresent()){
-            return ResponseEntity.ok(toDto(cliente.get()));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        final Cliente cliente = clienteService.findById(id).orElse(null);
+        return ResponseEntity.ok(toDto(cliente));
     }
 
     @PostMapping
@@ -53,20 +48,16 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteDto> update(@PathVariable("id") final String id,
-                                         @Valid @RequestBody final ClienteDto dto) {
+    public ResponseEntity<ClienteDto> update(@PathVariable("id") final Long id,
+                                         @Valid @RequestBody final ClienteDto clienteAtualizado) {
 
-        final var cliente = clienteService.update(dto.getNome(), dto.getEmail(),dto.getTipoDeCliente(),toEntity(dto));
-
-        if (cliente.isPresent()){
-            return ResponseEntity.ok(toDto(cliente.get()));
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+        final Optional<Cliente> optionalCliente = clienteService.update(id, toEntity(clienteAtualizado));
+        if (optionalCliente.isEmpty()) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(clienteAtualizado);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") final String id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") final Long id) {
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
     }

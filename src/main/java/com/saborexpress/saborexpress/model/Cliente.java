@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     @NotNull(message = "O Atributo Nome é Obrigatório!")
@@ -27,7 +27,7 @@ public class Cliente {
     @NotNull(message = "O Atributo Email é Obrigatório!")
     private String email;
 
-    @NotNull(message = "O Atributo Tipo de Cliente é Obrigatório!")
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoDeCliente tipoDeCliente;
