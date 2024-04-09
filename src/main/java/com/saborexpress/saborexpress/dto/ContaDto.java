@@ -1,4 +1,4 @@
 package com.saborexpress.saborexpress.dto;
 
-public class ProdutoDto {
+public class ContaDto {
 }

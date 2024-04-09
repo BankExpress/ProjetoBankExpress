@@ -29,7 +29,7 @@ public class ClienteMapper {
         if (Objects.nonNull(entity)) {
             return ClienteDto.builder()
                     .nome(entity.getNome())
-                    .documento(entity.getDocumento())
+                    .tipoDeCliente(entity.getTipoDeCliente())
                     .email(entity.getEmail())
                     .build();
         } else {
@@ -40,9 +40,15 @@ public class ClienteMapper {
     public static Cliente toEntity(final ClienteDto dto) {
         return Cliente.builder()
                 .nome(dto.getNome())
-                .documento(dto.getDocumento())
+                .tipoDeCliente(dto.getTipoDeCliente())
                 .email(dto.getEmail())
                 .build();
     }
 
+    public static void copy(final Cliente source, final Cliente destiny){
+        destiny.setId(source.getId());
+        destiny.setNome(source.getNome());
+        destiny.getEmail(source.getEmail());
+        destiny.getTipoDeCliente(source.getTipoDeCliente());
+    }
 }

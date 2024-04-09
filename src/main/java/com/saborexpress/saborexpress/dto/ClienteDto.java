@@ -2,33 +2,34 @@ package com.saborexpress.saborexpress.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.saborexpress.saborexpress.domain.ClienteEnum;
+import com.saborexpress.saborexpress.domain.TipoDeCliente;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+
 public class ClienteDto {
 
 
-    @NotBlank(message = "nome nao pode estar vazia")
+    @NotBlank(message = "Nome não pode estar vazia")
     private String nome;
 
-    @NotBlank(message = "email nao pode estar vazia")
+    @NotBlank(message = "Email não pode estar vazia")
     @Size(min = 5)
     private String email;
 
 
-
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private ClienteEnum documento;
+    private TipoDeCliente tipoDeCliente;
 
+    @NotNull
+    private List<ContaDto> contas;
 }
