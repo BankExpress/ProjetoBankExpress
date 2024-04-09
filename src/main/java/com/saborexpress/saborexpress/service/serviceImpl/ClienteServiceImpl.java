@@ -1,8 +1,6 @@
 package com.saborexpress.saborexpress.service.serviceImpl;
 
-import com.saborexpress.saborexpress.domain.TipoDeCliente;
 import com.saborexpress.saborexpress.exception.ClienteJaExisteException;
-import com.saborexpress.saborexpress.mapper.ClienteMapper;
 import com.saborexpress.saborexpress.model.Cliente;
 import com.saborexpress.saborexpress.repository.ClienteRepository;
 import com.saborexpress.saborexpress.service.ClienteService;
@@ -28,7 +26,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Optional<Cliente> findByNome(final String nome) {
+    public List<Cliente> findByNome(final String nome) {
 
         return clienteRepository.findByNome(nome);
     }
@@ -43,21 +41,24 @@ public class ClienteServiceImpl implements ClienteService {
     public Cliente save(final Cliente entity) {
 
         if (clienteRepository.findById(entity.getId()).isPresent()) {
-            throw new ClienteJaExisteException("O cliente com id " + entity.getId() + " já existe!")
+            throw new ClienteJaExisteException("O cliente com id " + entity.getId() + " já existe!");
         }
         return clienteRepository.save(entity);
     }
 
     @Override
-    public Optional<Cliente> update(final String nome, final String email, final TipoDeCliente tipoDeCliente, final Cliente clienteAtualizado) {
+    public Optional<Cliente> update(final Long id, final Cliente clienteAtualizado) {
         final Optional<Cliente> clienteOptional = clienteRepository.findById(id);
         if (clienteOptional.isPresent()) {
-            final Cliente entity = clienteOptional.get();
-            ClienteMapper.copy(clienteAtualizado, entity);
-            clienteRepository.save(entity);
+            final Cliente clienteEncontrado = clienteOptional.get();
+          clienteEncontrado.setId(clienteAtualizado.getId());
+          clienteEncontrado.setNome(clienteAtualizado.getNome());
+          clienteEncontrado.setEmail(clienteAtualizado.getEmail());
+          clienteEncontrado.setTipoDeCliente(clienteAtualizado.getTipoDeCliente());
+            clienteRepository.save(clienteEncontrado);
             return Optional.of(clienteAtualizado);
         }
-        return Optional.empty();
+        return clienteOptional;
     }
 
     @Override

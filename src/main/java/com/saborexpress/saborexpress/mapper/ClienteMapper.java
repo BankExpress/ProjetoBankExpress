@@ -10,16 +10,6 @@ import java.util.stream.Collectors;
 public class ClienteMapper {
     public static List<ClienteDto> toDto(final List<Cliente> entities) {
 
-//        final List<CarDto> response = new ArrayList<>();
-//
-//        if (Objects.nonNull(entities)) {  // (entities != null)
-//            for(Car entity : entities) {
-//                response.add(toDto(entity));
-//            }
-//        }
-//
-//        return response;
-
         return entities.stream()
                 .map(entity -> toDto(entity))
                 .collect(Collectors.toList());
@@ -45,10 +35,10 @@ public class ClienteMapper {
                 .build();
     }
 
-    public static void copy(final Cliente source, final Cliente destiny){
-        destiny.setId(source.getId());
-        destiny.setNome(source.getNome());
-        destiny.getEmail(source.getEmail());
-        destiny.getTipoDeCliente(source.getTipoDeCliente());
-    }
+//    public static void copy(final Cliente source, final Cliente destiny){
+//        destiny.setId(source.getId());
+//        destiny.setNome(source.getNome());
+//        destiny.setEmail(source.getEmail());
+//        destiny.setTipoDeCliente(source.getTipoDeCliente());
+//    }
 }

@@ -30,6 +30,6 @@ public class ClienteDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private TipoDeCliente tipoDeCliente;
 
-    @NotNull
-    private List<ContaDto> contas;
+//    @NotNull
+//    private List<ContaDto> contas;
 }
