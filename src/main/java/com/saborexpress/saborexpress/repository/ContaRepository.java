@@ -1,13 +1,14 @@
 package com.saborexpress.saborexpress.repository;
 
-import com.saborexpress.saborexpress.model.Cliente;
+import com.saborexpress.saborexpress.model.Conta;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-@Repository
-public interface ContaRepository extends JpaRepository<Cliente, Long> {
+import java.util.Optional;
 
-    List<Cliente> findById(String numeroDaConta);
+@Repository
+public interface ContaRepository extends JpaRepository<Conta, Long> {
+
+    Optional<Conta> findById(String numeroDaConta);
 
 }
