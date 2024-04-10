@@ -1,20 +1,18 @@
 package com.saborexpress.saborexpress.model;
 
-
 import com.saborexpress.saborexpress.domain.TipoDeConta;
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 
 @Entity
-@Table(name = "Conta")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "Conta")
 public class Conta {
 
     @Id
@@ -22,14 +20,11 @@ public class Conta {
     private Long id;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TipoDeConta tipoDeConta;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private BigDecimal saldo;
-
-    @NotNull(message = "O cliente não pode ser nulo !")
-    private Cliente cliente;
 
     @Column(length = 10)
     @NotNull(message = "O numero da conta não deve ser nula!")

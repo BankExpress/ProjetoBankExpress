@@ -21,7 +21,6 @@ public class ContaMapper {
             return ContaDto.builder()
                     .tipoDeConta(conta.getTipoDeConta())
                     .saldo(conta.getSaldo())
-                    .cliente(conta.getCliente())
                     .numeroDaConta(conta.getNumeroDaConta())
                     .agencia(conta.getAgencia())
                     .build();
@@ -34,7 +33,6 @@ public class ContaMapper {
         return Conta.builder()
                 .tipoDeConta(contaDto.getTipoDeConta())
                 .saldo(contaDto.getSaldo())
-                .cliente(contaDto.getCliente())
                 .numeroDaConta(contaDto.getNumeroDaConta())
                 .agencia(contaDto.getAgencia())
                 .build();

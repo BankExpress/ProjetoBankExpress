@@ -39,18 +39,17 @@ public class ContaServiceImpl implements ContaService {
     }
 
     @Override
-    public Optional<Conta> update(final String numeroDaConta, final Conta ContaAtualizado) {
+    public Optional<Conta> update(final String numeroDaConta, final Conta contaAtualizado) {
         final Optional<Conta> ContaOptional = contaRepository.findById(numeroDaConta);
         if (ContaOptional.isPresent()) {
             final Conta ContaEncontrado = ContaOptional.get();
-            ContaEncontrado.setId(ContaAtualizado.getId());
-            ContaEncontrado.setTipoDeConta(ContaAtualizado.getTipoDeConta());
-            ContaEncontrado.setSaldo(ContaAtualizado.getSaldo());
-            ContaEncontrado.setCliente(ContaAtualizado.getCliente());
-            ContaEncontrado.setNumeroDaConta(ContaAtualizado.getNumeroDaConta());
-            ContaEncontrado.setAgencia(ContaAtualizado.getAgencia());
+            ContaEncontrado.setId(contaAtualizado.getId());
+            ContaEncontrado.setTipoDeConta(contaAtualizado.getTipoDeConta());
+            ContaEncontrado.setSaldo(contaAtualizado.getSaldo());
+            ContaEncontrado.setNumeroDaConta(contaAtualizado.getNumeroDaConta());
+            ContaEncontrado.setAgencia(contaAtualizado.getAgencia());
             contaRepository.save(ContaEncontrado);
-            return Optional.of(ContaAtualizado);
+            return Optional.of(contaAtualizado);
         }
         return ContaOptional;
     }

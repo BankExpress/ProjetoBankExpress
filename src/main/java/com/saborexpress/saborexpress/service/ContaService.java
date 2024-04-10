@@ -12,7 +12,7 @@ public interface ContaService {
 
     Conta save(final Conta conta);
 
-    Optional<Conta> update(final String numeroDaConta, final Conta ContaAtualizado);
+    Optional<Conta> update(final String numeroDaConta, final Conta contaAtualizado);
 
     void delete(final String numeroDaConta);
 }

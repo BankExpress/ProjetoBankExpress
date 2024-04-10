@@ -1,7 +1,7 @@
 package com.saborexpress.saborexpress.dto;
 
 import com.saborexpress.saborexpress.domain.TipoDeConta;
-import com.saborexpress.saborexpress.model.Cliente;
+import com.saborexpress.saborexpress.model.Conta;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,11 +21,11 @@ public class ContaDto {
     private TipoDeConta tipoDeConta;
 
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private BigDecimal saldo;
 
-    @NotBlank(message = "Cliente não pode estar vazia")
-    private Cliente cliente;
+    @NotBlank(message = "A Conta não pode estar vazia")
+    private Conta conta;
 
 
     @NotBlank(message = "Nome da Conta não pode estar vazia")
