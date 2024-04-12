@@ -8,16 +8,17 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ClienteMapper {
-    public static List<ClienteDto> toDto(final List<Cliente> entities) {
+    public static List<ClienteDto> toDtoCliente(final List<Cliente> entities) {
 
         return entities.stream()
-                .map(entity -> toDto(entity))
+                .map(entity -> toDtoCliente(entity))
                 .collect(Collectors.toList());
     }
 
-    public static ClienteDto toDto(final Cliente entity) {
+    public static ClienteDto toDtoCliente(final Cliente entity) {
         if (Objects.nonNull(entity)) {
             return ClienteDto.builder()
+                    .id(entity.getId())
                     .nome(entity.getNome())
                     .tipoDeCliente(entity.getTipoDeCliente())
                     .email(entity.getEmail())
@@ -27,8 +28,9 @@ public class ClienteMapper {
         }
     }
 
-    public static Cliente toEntity(final ClienteDto dto) {
+    public static Cliente toEntityCliente(final ClienteDto dto) {
         return Cliente.builder()
+                .id(dto.getId())
                 .nome(dto.getNome())
                 .tipoDeCliente(dto.getTipoDeCliente())
                 .email(dto.getEmail())
