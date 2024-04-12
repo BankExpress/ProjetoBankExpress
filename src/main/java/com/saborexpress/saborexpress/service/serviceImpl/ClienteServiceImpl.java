@@ -18,7 +18,6 @@ public class ClienteServiceImpl implements ClienteService {
     private final ClienteRepository clienteRepository;
 
 
-
     @Override
     public List<Cliente> findAll() {
 
@@ -40,10 +39,12 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public Cliente save(final Cliente entity) {
 
-        if (clienteRepository.findById(entity.getId()).isPresent()) {
-            throw new ClienteJaExisteException("O cliente com id " + entity.getId() + " já existe!");
+
+        if (entity.getId() == null || clienteRepository.findById(entity.getId()).isEmpty()) {
+
+            return clienteRepository.save(entity);
         }
-        return clienteRepository.save(entity);
+        throw new ClienteJaExisteException("O cliente com id " + entity.getId() + " já existe!");
     }
 
     @Override
@@ -51,12 +52,12 @@ public class ClienteServiceImpl implements ClienteService {
         final Optional<Cliente> clienteOptional = clienteRepository.findById(id);
         if (clienteOptional.isPresent()) {
             final Cliente clienteEncontrado = clienteOptional.get();
-          clienteEncontrado.setId(clienteAtualizado.getId());
-          clienteEncontrado.setNome(clienteAtualizado.getNome());
-          clienteEncontrado.setEmail(clienteAtualizado.getEmail());
-          clienteEncontrado.setTipoDeCliente(clienteAtualizado.getTipoDeCliente());
+
+            clienteEncontrado.setNome(clienteAtualizado.getNome());
+            clienteEncontrado.setEmail(clienteAtualizado.getEmail());
+            clienteEncontrado.setTipoDeCliente(clienteAtualizado.getTipoDeCliente());
             clienteRepository.save(clienteEncontrado);
-            return Optional.of(clienteAtualizado);
+            return Optional.of(clienteEncontrado);
         }
         return clienteOptional;
     }
@@ -65,9 +66,12 @@ public class ClienteServiceImpl implements ClienteService {
     public void delete(Long id) {
         Optional<Cliente> entity = clienteRepository.findById(id);
 
-        if (entity.isPresent()) {
-            clienteRepository.delete(entity.get());
+        if (entity.isEmpty()) {
+            throw new ClienteJaExisteException("O cliente com id " + id + " não existe!");
+
         }
-        throw new ClienteJaExisteException("O cliente com id " + id + " não existe!");
+        clienteRepository.delete(entity.get());
+
+
     }
 }

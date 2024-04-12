@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ClienteDto {
 
-
+    private Long id;
     @NotBlank(message = "Nome não pode estar vazia")
     private String nome;
 
@@ -29,6 +29,4 @@ public class ClienteDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private TipoDeCliente tipoDeCliente;
 
-//    @NotNull
-//    private List<ContaDto> contas;
 }

@@ -18,6 +18,7 @@ public class ClienteMapper {
     public static ClienteDto toDtoCliente(final Cliente entity) {
         if (Objects.nonNull(entity)) {
             return ClienteDto.builder()
+                    .id(entity.getId())
                     .nome(entity.getNome())
                     .tipoDeCliente(entity.getTipoDeCliente())
                     .email(entity.getEmail())
@@ -29,6 +30,7 @@ public class ClienteMapper {
 
     public static Cliente toEntityCliente(final ClienteDto dto) {
         return Cliente.builder()
+                .id(dto.getId())
                 .nome(dto.getNome())
                 .tipoDeCliente(dto.getTipoDeCliente())
                 .email(dto.getEmail())

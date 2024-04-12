@@ -20,20 +20,16 @@ public class ContaDto {
     @NotBlank(message = "Nome não pode estar vazia")
     private TipoDeConta tipoDeConta;
 
-
     @Enumerated(EnumType.ORDINAL)
     private BigDecimal saldo;
 
     @NotBlank(message = "A Conta não pode estar vazia")
     private Conta conta;
 
-
     @NotBlank(message = "Nome da Conta não pode estar vazia")
     private String numeroDaConta;
 
-
     @NotBlank(message = "A agencia não pode estar vazia")
     private String agencia;
-
 
 }
