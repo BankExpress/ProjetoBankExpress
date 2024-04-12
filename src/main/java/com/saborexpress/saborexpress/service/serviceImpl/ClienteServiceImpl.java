@@ -39,7 +39,6 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public Cliente save(final Cliente entity) {
 
-
         if (entity.getId() == null || clienteRepository.findById(entity.getId()).isEmpty()) {
 
             return clienteRepository.save(entity);
@@ -68,10 +67,7 @@ public class ClienteServiceImpl implements ClienteService {
 
         if (entity.isEmpty()) {
             throw new ClienteJaExisteException("O cliente com id " + id + " não existe!");
-
         }
         clienteRepository.delete(entity.get());
-
-
     }
 }
