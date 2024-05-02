@@ -32,7 +32,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Optional<Cliente> findById(Long id) {
+    public Optional<Cliente> findById(Integer id) {
 
         return clienteRepository.findById(id);
     }
@@ -47,7 +47,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Optional<Cliente> update(final Long id, final Cliente clienteAtualizado) {
+    public Optional<Cliente> update(final Integer id, final Cliente clienteAtualizado) {
         final Optional<Cliente> clienteOptional = clienteRepository.findById(id);
         if (clienteOptional.isPresent()) {
             final Cliente clienteEncontrado = clienteOptional.get();
@@ -62,7 +62,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Integer id) {
         Optional<Cliente> entity = clienteRepository.findById(id);
 
         if (entity.isPresent()) {

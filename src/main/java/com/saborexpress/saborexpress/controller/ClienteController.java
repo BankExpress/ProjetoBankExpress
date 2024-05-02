@@ -36,7 +36,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteDto> findById(@PathVariable("id") final Long id) {
+    public ResponseEntity<ClienteDto> findById(@PathVariable("id") final Integer id) {
         final Cliente cliente = clienteService.findById(id).orElse(null);
         return ResponseEntity.ok(toDto(cliente));
     }
@@ -48,7 +48,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteDto> update(@PathVariable("id") final Long id,
+    public ResponseEntity<ClienteDto> update(@PathVariable("id") final Integer id,
                                          @Valid @RequestBody final ClienteDto clienteAtualizado) {
 
         final Optional<Cliente> optionalCliente = clienteService.update(id, toEntity(clienteAtualizado));
@@ -57,7 +57,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") final Integer id) {
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
     }

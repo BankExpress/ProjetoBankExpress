@@ -17,8 +17,8 @@ import javax.validation.constraints.NotNull;
 public class Cliente {
 
     @Id
-
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @NotNull(message = "O Atributo Nome é Obrigatório!")
     private String nome;
