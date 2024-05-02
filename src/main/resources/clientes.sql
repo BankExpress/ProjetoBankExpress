@@ -1,0 +1,4 @@
+--INSERT INTO cliente(id,nome,email,tipoDeCliente) VALUES
+--(1,'Gabriel','Gabriel@gmail.com','PESSOAJURIDICA'),
+--(2,'Israel','israel@gmail.com','PESSOAFISICA'),
+--(3,'Gabriel','Gabriel@gmail.com','PESSOAJURIDICA');
