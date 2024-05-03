@@ -32,7 +32,7 @@ class ClienteServiceImplTest {
     }
 
     @Test
-    void deveListarClientes() {
+    public void deveListarClientes() {
         List<Cliente> clientesEsperados = listaDeClientes();
         when(clienteRepository.findAll()).thenReturn(clientesEsperados);
 
@@ -55,7 +55,7 @@ class ClienteServiceImplTest {
 
     @ParameterizedTest
     @MethodSource("gerarClienteOptional")
-    void deveBuscarClientePorId(Optional<Cliente> retornoEsperado) {
+    public void deveBuscarClientePorId(Optional<Cliente> retornoEsperado) {
         when(clienteRepository.findById(1)).thenReturn(retornoEsperado);
 
         Optional<Cliente> clienteOptional = clienteServiceImpl.findById(1);
@@ -70,7 +70,7 @@ class ClienteServiceImplTest {
 
 
     @Test
-    void deveInserirCliente() {
+    public void deveInserirCliente() {
         Cliente cliente = cliente();
         clienteServiceImpl.save(cliente);
 
@@ -78,7 +78,9 @@ class ClienteServiceImplTest {
     }
 
     @Test
-    void deletarUmCliente() {
+    public void deletarUmCliente() {
+        Cliente cliente = cliente();
+
         clienteServiceImpl.delete(1);
         verify(clienteRepository).findById(1);
 

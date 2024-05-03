@@ -1,13 +1,12 @@
 package com.saborexpress.saborexpress.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.saborexpress.saborexpress.domain.TipoDeCliente;
 import com.saborexpress.saborexpress.model.Cliente;
 
 import com.saborexpress.saborexpress.service.ClienteService;
 import com.saborexpress.saborexpress.FixtureClienteTest;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -42,7 +41,7 @@ public class ClienteControllerTest {
 
     @Test
     void deveListarClientes() throws Exception {
-        List<Cliente> clientes = FixtureClienteTest.listaDeClientes();
+        Iterable<Cliente> clientes = FixtureClienteTest.listaDeClientes();
         String clientesJson = mapper.writeValueAsString(clientes);
         when(clienteService.findAll()).thenReturn(clientes);
 
@@ -68,7 +67,7 @@ public class ClienteControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(clienteJson));
     }
-    public static Stream<Arguments> gerarDadosInvalidosParaAlunos() {
+    public static Stream<Arguments> gerarDadosInvalidosParaClientes() {
         return Stream.of(
                 arguments(
                         new Cliente(1, "","", TipoDeCliente.PESSOAFISICA),
