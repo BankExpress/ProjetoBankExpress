@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,9 +25,15 @@ public class ClienteController {
 
     private final ClienteService clienteService;
 
-    @GetMapping
-    public ResponseEntity<List<ClienteDto>> findAll() {
-        return ResponseEntity.ok(toDto(clienteService.findAll()));
+    @GetMapping("/{id}")
+    public ResponseEntity<List<ClienteDto>> findAll(@PathVariable("id") final Integer id) {
+        final Cliente cliente = clienteService.findById(id).orElse(null);
+
+        final Optional<Cliente> clienteOptional = clienteService.findById(id);
+        if (clienteOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+     //   return ResponseEntity.ok(toDto(clienteOptional.get()));
     }
 
     @GetMapping(params = {"nome"})
