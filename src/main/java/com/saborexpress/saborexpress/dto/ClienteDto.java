@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+
 public class ClienteDto {
 
 
@@ -31,6 +31,5 @@ public class ClienteDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private TipoDeCliente tipoDeCliente;
 
-//    @NotNull
-//    private List<ContaDto> contas;
+
 }

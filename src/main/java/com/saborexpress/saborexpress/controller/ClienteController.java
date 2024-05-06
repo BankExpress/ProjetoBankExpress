@@ -7,12 +7,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.validation.BindingResult;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.saborexpress.saborexpress.mapper.ClienteMapper.toDto;
 import static com.saborexpress.saborexpress.mapper.ClienteMapper.toEntity;
@@ -25,15 +32,10 @@ public class ClienteController {
 
     private final ClienteService clienteService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<ClienteDto>> findAll(@PathVariable("id") final Integer id) {
-        final Cliente cliente = clienteService.findById(id).orElse(null);
-
-        final Optional<Cliente> clienteOptional = clienteService.findById(id);
-        if (clienteOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-     //   return ResponseEntity.ok(toDto(clienteOptional.get()));
+    @GetMapping("/todos")
+    public ResponseEntity<List<ClienteDto>> findAll() {
+        List<Cliente> clientes = clienteService.findAll();
+        return ResponseEntity.ok(toDto(clientes));
     }
 
     @GetMapping(params = {"nome"})
@@ -44,15 +46,28 @@ public class ClienteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ClienteDto> findById(@PathVariable("id") final Integer id) {
-        final Cliente cliente = clienteService.findById(id).orElse(null);
-        return ResponseEntity.ok(toDto(cliente));
+        final Optional<Cliente> optionalCliente = clienteService.findById(id);
+        if (optionalCliente.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(toDto(optionalCliente.get()));
     }
 
     @PostMapping
-    public ResponseEntity<Void> save(@Valid @RequestBody final ClienteDto clienteDto) {
-        clienteService.save(toEntity(clienteDto));
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<?> save(@Valid @RequestBody final ClienteDto clienteDto, BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : result.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(Map.of("errors", errors));
+        } else {
+            clienteService.save(toEntity(clienteDto));
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
     }
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<ClienteDto> update(@PathVariable("id") final Integer id,
